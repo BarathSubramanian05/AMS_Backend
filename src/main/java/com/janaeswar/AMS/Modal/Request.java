@@ -12,13 +12,21 @@ public class Request {
     private String id;
     private String employeeId;
     private LocalDate date;
-    private boolean approved;
+    private String reason;
 
-    public Request(String id, String employeeId, LocalDate date, boolean approved) {
+    public Request(String id, String employeeId, LocalDate date) {
         this.id = id;
         this.employeeId = employeeId;
         this.date = date;
-        this.approved = approved;
+
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public String getId() {
@@ -45,11 +53,4 @@ public class Request {
         this.date = date;
     }
 
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
 }

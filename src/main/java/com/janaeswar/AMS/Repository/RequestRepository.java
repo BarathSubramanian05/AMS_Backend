@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface RequestRepository extends MongoRepository<Request,String> {
     Optional<Request> findByEmployeeIdAndDate(String employeeId, LocalDate date);
+    Optional<Request> findFirstByEmployeeIdAndDateOrderByIdDesc(String employeeId, LocalDate date);
+
 }

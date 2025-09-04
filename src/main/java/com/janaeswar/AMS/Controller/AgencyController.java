@@ -5,9 +5,12 @@ import com.janaeswar.AMS.Service.AgencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
+import java.util.List;
+
+
 @RestController
 @RequestMapping("/agency")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AgencyController {
     private final AgencyService agencyService;
 
@@ -35,8 +38,9 @@ public class AgencyController {
         return agencyService.toggleAgencyStatus(agencyId);
     }
 
-    @DeleteMapping("/deleteagency/{agencyId}")
-    public ResponseEntity<?> deleteAgency(@PathVariable String agencyId) {
-        return agencyService.deleteAgency(agencyId);
+    @DeleteMapping("/deleteagencies")
+    public ResponseEntity<?> deleteAgency(@RequestBody List<String> agencyIds) {
+        return agencyService.deleteAgency(agencyIds);
     }
+
 }

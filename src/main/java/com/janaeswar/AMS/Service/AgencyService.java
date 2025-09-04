@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,15 +109,24 @@ public class AgencyService {
         return new ResponseEntity<>(agencyRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> deleteAgency(String agencyId) {
-        Optional<Agency> agencyOpt = agencyRepository.findById(agencyId);
-        if (agencyOpt.isEmpty()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Agency with ID '" + agencyId + "' not found.");
+    public ResponseEntity<?> deleteAgency(List<String> agencyIds) {
+        List<String> notFoundIds = new ArrayList<>();
+
+        for (String id : agencyIds) {
+            Optional<Agency> agencyOpt = agencyRepository.findById(id);
+            if (agencyOpt.isEmpty()) {
+                notFoundIds.add(id);
+            } else {
+                agencyRepository.deleteById(id);
+            }
         }
 
-        agencyRepository.deleteById(agencyId);
-        return ResponseEntity.ok("Agency with ID '" + agencyId + "' deleted successfully.");
+        if (!notFoundIds.isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body("Some agencies not found: " + String.join(", ", notFoundIds));
+        }
+
+        return ResponseEntity.ok("Agencies deleted successfully");
     }
+
 }

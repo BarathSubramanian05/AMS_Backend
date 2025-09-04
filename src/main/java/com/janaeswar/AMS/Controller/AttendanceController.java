@@ -3,6 +3,8 @@ import com.janaeswar.AMS.Service.AttendanceService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @CrossOrigin(origins = "*")
@@ -33,4 +35,11 @@ public class AttendanceController {
                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime outTime) {
         return attendanceService.addOutTime(employeeId, outTime);
     }
+
+    @PostMapping("/addDate")
+    public ResponseEntity<?> addDate(@RequestParam String employeeId,
+                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+            return attendanceService.addDate(employeeId,date);
+    }
+
 }

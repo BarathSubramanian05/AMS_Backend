@@ -32,4 +32,13 @@ public class RequestController {
         LocalDate parsedDate = LocalDate.parse(date);
         return requestService.toggleApproved(employeeId, parsedDate);
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteRequest(@RequestParam String employeeId,
+                                            @RequestParam String date) {
+        // Convert date string to LocalDate
+        LocalDate parsedDate = LocalDate.parse(date);
+        System.out.println(employeeId+" "+date);
+        return requestService.deleteRequest(employeeId, parsedDate);
+    }
 }
