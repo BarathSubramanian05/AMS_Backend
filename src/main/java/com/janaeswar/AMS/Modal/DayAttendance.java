@@ -22,7 +22,7 @@ public class DayAttendance {
         this.outTime = outTime;
     }
 
-    // Getters and setters
+
 
     public void addDate(LocalDateTime inTime)
     {

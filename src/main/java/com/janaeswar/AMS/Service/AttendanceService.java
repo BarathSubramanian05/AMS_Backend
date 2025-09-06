@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,16 +39,26 @@ public class AttendanceService {
 
     public ResponseEntity<?> addInTime(String employeeId, LocalDateTime inTime) {
         Attendance record = attendanceRepository.findByEmployeeId(employeeId)
-                .orElse(new Attendance(employeeId));
-        for(DayAttendance att : record.getAttendance())
+                .orElse(new Attendance(employeeId,inTime.toLocalDate()));
+//        for(DayAttendance att : record.getAttendance())
+//        {
+//            if(att.getInTime().toLocalDate() == inTime.toLocalDate())
+//            {
+//                return ResponseEntity.ok("Already Logged In");
+//            }
+//        }
+        DayAttendance obj = new DayAttendance(inTime, null);
+        record.getAttendance().add(obj);
+        if(record.getAttendanceMap().containsKey(inTime.toLocalDate()))
         {
-            if(att.getInTime().toLocalDate() == inTime.toLocalDate())
-            {
-                return ResponseEntity.ok("Already Logged In");
-            }
+            HashMap<LocalDate,List<DayAttendance>> map = record.getAttendanceMap();
+            List<DayAttendance> d = map.get(inTime.toLocalDate());
+            d.add(obj);
+            record.setAttendanceMap(map);
         }
-        record.getAttendance().add(new DayAttendance(inTime, null));
+
         attendanceRepository.save(record);
+        System.out.println(record.getAttendanceMap());
         return ResponseEntity.ok("In-time added");
     }
 
@@ -69,6 +80,8 @@ public class AttendanceService {
             DayAttendance entry = record.getAttendance().get(i);
             if (entry.getOutTime() == null) {
                 entry.setOutTime(outTime);
+                List<DayAttendance> d = record.getAttendanceMap().get(outTime.toLocalDate());
+                d.getLast().setOutTime(outTime);
                 attendanceRepository.save(record);
                 return ResponseEntity.ok("Out-time updated");
             }
