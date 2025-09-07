@@ -11,4 +11,5 @@ public interface EmployeeRepository extends MongoRepository<Employee,String> {
     Optional<Employee> findTopByOrderByEmployeeIdDesc();
     List<Employee> findByAgencyId(String agencyId);
     Optional<Employee> findByPhoneNumber(long phoneNumber);
+    long countByAgencyId(String agencyId);
 }

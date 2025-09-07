@@ -1,5 +1,6 @@
 package com.janaeswar.AMS.Service;
 
+import com.janaeswar.AMS.Modal.Agency;
 import com.janaeswar.AMS.Modal.Employee;
 import com.janaeswar.AMS.Repository.EmployeeRepository;
 import org.springframework.http.HttpStatus;
@@ -112,5 +113,24 @@ public class EmployeeService {
             return ResponseEntity.badRequest().body("employee phone number not found");
         }
         return ResponseEntity.ok(employee);
+    }
+
+    public ResponseEntity<?> toggleEmployeeStatus(String employeeId) {
+            Optional<Employee> employeeOpt = employeeRepository.findById(employeeId);
+            if (employeeOpt.isEmpty()) {
+                return ResponseEntity
+                        .badRequest()
+                        .body("Employee with ID '" + employeeId + "' not found.");
+            }
+
+            Employee employee = employeeOpt.get();
+            employee.setisActive(!employee.getisActive());
+            employeeRepository.save(employee);
+
+            return ResponseEntity.ok("Agency status is: " + (employee.getisActive() ? "active" : "inactive"));
+        }
+
+    public ResponseEntity<?> getCountOfEmployeesByAgencyId(String agencyId) {
+        return ResponseEntity.ok(employeeRepository.countByAgencyId(agencyId));
     }
 }

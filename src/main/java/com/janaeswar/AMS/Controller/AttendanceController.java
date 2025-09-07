@@ -41,5 +41,9 @@ public class AttendanceController {
                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
             return attendanceService.addDate(employeeId,date);
     }
+    @GetMapping("/getpresentemployeesbyagencyid/{agencyId}")
+    public ResponseEntity<?> getPresentEmployeesByAgencyId(@PathVariable String agencyId){
+        return attendanceService.getPresentEmployeesByAgencyId(agencyId,LocalDate.now());
+    }
 
 }

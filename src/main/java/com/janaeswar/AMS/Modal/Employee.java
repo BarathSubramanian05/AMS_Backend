@@ -14,6 +14,19 @@ public class Employee {
     private String role;
     private double salary;
     private String agencyId;
+    private boolean isActive;
+
+    public Employee() {
+        this.isActive = true;
+    }
+
+    public boolean getisActive() {
+        return isActive;
+    }
+
+    public void setisActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 
     public String getEmployeeId() {
         return employeeId;

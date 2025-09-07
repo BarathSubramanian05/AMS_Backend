@@ -4,7 +4,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ public class Attendance {
 
     @Id
     private String employeeId;
+    private String agencyId;
     private String startTime;
     private String endTime;
     private List<DayAttendance> attendance;
@@ -38,6 +38,14 @@ public class Attendance {
         this.startTime = startTime;
         this.endTime = endTime;
         this.attendance = new ArrayList<>();
+    }
+
+    public String getAgencyId() {
+        return agencyId;
+    }
+
+    public void setAgencyId(String agencyId) {
+        this.agencyId = agencyId;
     }
 
     public String getEmployeeId() {

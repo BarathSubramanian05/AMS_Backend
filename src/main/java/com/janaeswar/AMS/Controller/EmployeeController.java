@@ -45,6 +45,7 @@ public class EmployeeController {
         return employeeService.updateEmployee(employee);
     }
 
+
     @GetMapping("/getemployeebyphonenumber")
     public ResponseEntity<?> getEmployeeByPhoneNumber(@RequestParam long phoneNumber) {
         return employeeService.getEmployeeByPhoneNumber(phoneNumber);
@@ -60,5 +61,15 @@ public class EmployeeController {
     public ResponseEntity<?> getAllRequest()
     {
         return requestService.getRequests();
+    }
+
+    @PutMapping("/toggleemployeestatus/{employeeId}")
+    public ResponseEntity<?> toggleEmployeeStatus(@PathVariable String agencyId) {
+        return employeeService.toggleEmployeeStatus(agencyId);
+    }
+
+    @GetMapping("/countbyagencyid/{agencyId}")
+    public ResponseEntity<?> getCountOfEmployeesByAgencyId(@PathVariable String agencyId){
+        return employeeService.getCountOfEmployeesByAgencyId(agencyId);
     }
 }

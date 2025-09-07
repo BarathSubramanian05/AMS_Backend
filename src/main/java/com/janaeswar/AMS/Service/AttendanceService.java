@@ -103,4 +103,8 @@ public class AttendanceService {
         requestService.deleteRequest(employeeId,date);
         return ResponseEntity.ok("Attendance record created for " + employeeId + " on " + date);
     }
+
+    public ResponseEntity<?> getPresentEmployeesByAgencyId(String agencyId,LocalDate date) {
+        return ResponseEntity.ok(attendanceRepository.countPresentEmployeesByAgencyIdAndDate(agencyId,date));
+    }
 }
