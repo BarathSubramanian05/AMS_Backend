@@ -7,9 +7,10 @@ import com.janaeswar.AMS.Service.RequestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/employee")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -22,6 +23,7 @@ public class EmployeeController {
 
     @PostMapping("/addemployee")
     public ResponseEntity<?> addEmployee(@RequestBody Employee employee) {
+        System.out.println("Payload:\n"+employee);
         return employeeService.addEmployee(employee);
     }
 

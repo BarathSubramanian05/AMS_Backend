@@ -50,7 +50,8 @@ public class EmployeeService {
         employee.setRole(employeeRequest.getRole());
         employee.setSalary(employeeRequest.getSalary());
         employee.setAgencyId(employeeRequest.getagencyId());
-
+        employee.setStartTime(employeeRequest.getStartTime());
+        employee.setEndTime(employeeRequest.getEndTime());
         employeeRepository.save(employee);
 
         return ResponseEntity.ok("Employee added successfully.");
@@ -101,7 +102,8 @@ public class EmployeeService {
         employee.setRole(employeeRequest.getRole());
         employee.setSalary(employeeRequest.getSalary());
         employee.setAgencyId(employeeRequest.getagencyId());
-
+        employee.setStartTime(employeeRequest.getStartTime());
+        employee.setEndTime(employeeRequest.getEndTime());
         employeeRepository.save(employee);
 
         return ResponseEntity.ok("Employee with ID '" + employeeRequest.getEmployeeId() + "' updated successfully.");

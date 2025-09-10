@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -49,14 +50,9 @@ public class AttendanceService {
 //        }
         DayAttendance obj = new DayAttendance(inTime, null);
         record.getAttendance().add(obj);
-        if(record.getAttendanceMap().containsKey(inTime.toLocalDate()))
-        {
-            HashMap<LocalDate,List<DayAttendance>> map = record.getAttendanceMap();
-            List<DayAttendance> d = map.get(inTime.toLocalDate());
-            d.add(obj);
-            record.setAttendanceMap(map);
-        }
-
+        record.getAttendanceMap()
+                .computeIfAbsent(inTime.toLocalDate(), k -> new ArrayList<>())
+                .add(obj);
         attendanceRepository.save(record);
         System.out.println(record.getAttendanceMap());
         return ResponseEntity.ok("In-time added");
