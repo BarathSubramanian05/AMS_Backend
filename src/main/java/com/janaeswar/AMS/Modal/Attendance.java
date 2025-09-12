@@ -21,8 +21,9 @@
             this.attendance = new ArrayList<>();
         }
 
-        public Attendance(String employeeId, LocalDate d) {
+        public Attendance(String employeeId, String agencyId, LocalDate d) {
             this.employeeId = employeeId;
+            this.agencyId=agencyId;
             this.attendance = new ArrayList<>();
             this.attendanceMap = new HashMap<>();
             attendanceMap.put(d,new ArrayList<>());

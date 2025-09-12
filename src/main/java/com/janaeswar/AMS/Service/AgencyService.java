@@ -1,7 +1,9 @@
 package com.janaeswar.AMS.Service;
 
 import com.janaeswar.AMS.Modal.Agency;
+import com.janaeswar.AMS.Modal.Employee;
 import com.janaeswar.AMS.Repository.AgencyRepository;
+import com.janaeswar.AMS.Repository.EmployeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,11 @@ import java.util.Optional;
 @Service
 public class AgencyService {
     private final AgencyRepository agencyRepository;
+private final EmployeeRepository employeeRepository;
 
-    public AgencyService(AgencyRepository agencyRepository) {
+    public AgencyService(AgencyRepository agencyRepository, EmployeeRepository employeeRepository) {
         this.agencyRepository = agencyRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public ResponseEntity<?> addAgency(Agency agencyRequest) {
@@ -23,6 +27,7 @@ public class AgencyService {
         // Check for duplicate agencyName
         Optional<Agency> existingAgency = agencyRepository.findByAgencyName(agencyRequest.getAgencyName());
         if (existingAgency.isPresent()) {
+            toggleAgencyStatus(agencyRequest.getAgencyId());
             return ResponseEntity
                     .badRequest()
                     .body("Agency with name '" + agencyRequest.getAgencyName() + "' already exists.");
@@ -99,11 +104,21 @@ public class AgencyService {
         }
 
         Agency agency = agencyOpt.get();
-        agency.setStatus(!agency.isStatus());
+        boolean newStatus = !agency.isStatus();
+        agency.setStatus(newStatus);
         agencyRepository.save(agency);
 
-        return ResponseEntity.ok("Agency status is: " + (agency.isStatus() ? "active" : "inactive"));
+        // Cascade toggle to employees of this agenc
+        List<Employee> employees = employeeRepository.findByAgencyId(agencyId);
+        for (Employee emp : employees) {
+            emp.setisActive(!emp.getisActive());
+        }
+        employeeRepository.saveAll(employees);
+
+        return ResponseEntity.ok("Agency status is: " + (agency.isStatus() ? "active" : "inactive") +
+                " | Employees updated to " + (newStatus ? "active" : "inactive"));
     }
+
 
     public ResponseEntity<List<Agency>> getAgencies() {
         return new ResponseEntity<>(agencyRepository.findAll(), HttpStatus.OK);
@@ -117,7 +132,7 @@ public class AgencyService {
             if (agencyOpt.isEmpty()) {
                 notFoundIds.add(id);
             } else {
-                agencyRepository.deleteById(id);
+                toggleAgencyStatus(id);
             }
         }
 

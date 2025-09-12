@@ -66,7 +66,7 @@ public class EmployeeService {
                     .body("Employee with ID '" + id + "' not found.");
         }
 
-        employeeRepository.deleteById(id);
+        toggleEmployeeStatus(id);
 
         return ResponseEntity.ok("Employee with ID '" + id + "' deleted successfully.");
     }
@@ -133,6 +133,12 @@ public class EmployeeService {
         }
 
     public ResponseEntity<?> getCountOfEmployeesByAgencyId(String agencyId) {
-        return ResponseEntity.ok(employeeRepository.countByAgencyId(agencyId));
+        System.out.println("Employee:"+employeeRepository.countByAgencyIdAndIsActiveTrue(agencyId));
+        return ResponseEntity.ok(employeeRepository.countByAgencyIdAndIsActiveTrue(agencyId));
+    }
+
+    public long getAllEmployees() {
+        System.out.println("All Employee:"+employeeRepository.countByIsActiveTrue());
+        return employeeRepository.countByIsActiveTrue();
     }
 }

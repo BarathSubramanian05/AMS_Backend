@@ -38,9 +38,9 @@ public class AttendanceService {
         }
     }
 
-    public ResponseEntity<?> addInTime(String employeeId, LocalDateTime inTime) {
+    public ResponseEntity<?> addInTime(String employeeId,String agencyId, LocalDateTime inTime) {
         Attendance record = attendanceRepository.findByEmployeeId(employeeId)
-                .orElse(new Attendance(employeeId,inTime.toLocalDate()));
+                .orElse(new Attendance(employeeId,agencyId,inTime.toLocalDate()));
 //        for(DayAttendance att : record.getAttendance())
 //        {
 //            if(att.getInTime().toLocalDate() == inTime.toLocalDate())
@@ -101,6 +101,7 @@ public class AttendanceService {
     }
 
     public ResponseEntity<?> getPresentEmployeesByAgencyId(String agencyId,LocalDate date) {
+        System.out.println(attendanceRepository.countPresentEmployeesByAgencyIdAndDate(agencyId,date));
         return ResponseEntity.ok(attendanceRepository.countPresentEmployeesByAgencyIdAndDate(agencyId,date));
     }
 }

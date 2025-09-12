@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface AttendanceRepository extends MongoRepository<Attendance,String> {
     Optional<Attendance> findByEmployeeId(String employeeId);
 
-    @Query(value = "{ 'agencyId': ?0, 'attendance.date': ?1 }", count = true)
+    @Query(value = "{ 'agencyId': ?0, 'attendance': { $elemMatch: { 'date': ?1, 'inTime': { $ne: null } } } }", count = true)
     long countPresentEmployeesByAgencyIdAndDate(String agencyId, LocalDate date);
+
 }

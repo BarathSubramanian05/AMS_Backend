@@ -24,10 +24,10 @@ public class AttendanceController {
     }
 
     @PostMapping("/addintime")
-    public ResponseEntity<?> addInTime(@RequestParam String employeeId,
+    public ResponseEntity<?> addInTime(@RequestParam String employeeId,@RequestParam String agencyId,
                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inTime) {
         System.out.println(employeeId+" "+inTime);
-        return attendanceService.addInTime(employeeId, inTime);
+        return attendanceService.addInTime(employeeId, agencyId,inTime);
     }
 
     @PostMapping("/addouttime")
@@ -45,5 +45,4 @@ public class AttendanceController {
     public ResponseEntity<?> getPresentEmployeesByAgencyId(@PathVariable String agencyId){
         return attendanceService.getPresentEmployeesByAgencyId(agencyId,LocalDate.now());
     }
-
 }

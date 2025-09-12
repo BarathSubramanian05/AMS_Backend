@@ -47,6 +47,11 @@ public class EmployeeController {
         return employeeService.updateEmployee(employee);
     }
 
+    @GetMapping("/getallemployee")
+    public long getAllEmployee()
+    {
+        return employeeService.getAllEmployees();
+    }
 
     @GetMapping("/getemployeebyphonenumber")
     public ResponseEntity<?> getEmployeeByPhoneNumber(@RequestParam long phoneNumber) {
@@ -70,8 +75,8 @@ public class EmployeeController {
         return employeeService.toggleEmployeeStatus(agencyId);
     }
 
-    @GetMapping("/countbyagencyid/{agencyId}")
-    public ResponseEntity<?> getCountOfEmployeesByAgencyId(@PathVariable String agencyId){
-        return employeeService.getCountOfEmployeesByAgencyId(agencyId);
-    }
+        @GetMapping("/countbyagencyid/{agencyId}")
+        public ResponseEntity<?> getCountOfEmployeesByAgencyId(@PathVariable String agencyId){
+            return employeeService.getCountOfEmployeesByAgencyId(agencyId);
+        }
 }
