@@ -93,8 +93,10 @@ public class AttendanceService {
 
         // Create new DayAttendance with null times
         DayAttendance newDay = new DayAttendance(date,null, null);
-        attendance.getAttendance().add(newDay);
 
+        attendance.getAttendanceMap()
+                .computeIfAbsent(date,k -> new ArrayList<>())
+                .add(newDay);
         attendanceRepository.save(attendance);
         requestService.deleteRequest(employeeId,date);
         return ResponseEntity.ok("Attendance record created for " + employeeId + " on " + date);

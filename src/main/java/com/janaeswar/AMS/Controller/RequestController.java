@@ -38,7 +38,7 @@ public class RequestController {
                                             @RequestParam String date) {
         // Convert date string to LocalDate
         LocalDate parsedDate = LocalDate.parse(date);
-        System.out.println(employeeId+" "+date);
+        System.out.println("new"+employeeId+" "+date);
         return requestService.deleteRequest(employeeId, parsedDate);
     }
 }

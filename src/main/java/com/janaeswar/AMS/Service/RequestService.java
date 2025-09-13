@@ -62,14 +62,17 @@ public class RequestService {
     }
 
 
-    public ResponseEntity<?> deleteRequest(String empid,LocalDate date)
-    {
-        Request r =  requestRepository.findFirstByEmployeeIdAndDateOrderByIdDesc(empid,date).orElse(null);
-        System.out.println(r);
-        if(r!=null) {
+    public ResponseEntity<?> deleteRequest(String empid, LocalDate date) {
+        Request r = requestRepository.findByEmployeeId(empid)
+                .stream()
+                .filter(req -> req.getDate() != null && req.getDate().equals(date))
+                .findFirst()
+                .orElse(null);
+
+        if (r != null) {
             requestRepository.deleteById(r.getId());
         }
-        System.out.println(r);
+
         return ResponseEntity.ok("Deleted");
     }
 
